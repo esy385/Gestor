@@ -5,8 +5,14 @@ class GestorGastos:
     def __init__(self):
         self._gastos = []
     
-    def agregar_gasto(self, gasto):
-        self._gastos.append(gasto)
+    def agregar_gasto(self):
+        while True:
+            try:
+                descripcion,monto,categoria = input("Descripcion: "), int(input("Monto: ")), input("Categoria: ")
+                break
+            except ValueError:
+                print("Ingresa el monto correctamente.")                
+        self._gastos.append(Gasto(descripcion,monto,categoria))
         
     def mostrar_gastos(self):
         if self._gastos:
@@ -14,7 +20,8 @@ class GestorGastos:
         else:
             print('No hay gastos')
     
-    def buscar_categoria(self, categoria):
+    def buscar_categoria(self):
+        categoria = input("Ingresa la categoria: ")
         for gasto in self._gastos:
             if gasto.categoria == categoria:
                 print(gasto)
@@ -22,13 +29,8 @@ class GestorGastos:
     def ordernar_por_monto(self):
         pass
     
-    def calcular_total(self):
-        suma = 0
-        if self._gastos:
-            for gasto in self._gastos:
-                suma += gasto.monto
-        else:
-            print('No hay gastos')
+    def calcular_total_mensual(self):
+        pass
     
     def guardar(self):
         with open("datos.json", 'a', encoding='utf-8') as archivo:
