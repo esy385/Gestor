@@ -1,7 +1,7 @@
 from gasto import Gasto
 import json
-import datetime
-import time
+from datetime import datetime # Calendario
+import time # Pausar ejecucion
 
 class GestorGastos:
     def __init__(self):
@@ -13,8 +13,9 @@ class GestorGastos:
                 descripcion,monto,categoria = input("Descripcion: "), int(input("Monto: ")), input("Categoria: ")
                 break
             except ValueError:
-                print("Ingresa el monto correctamente.")                
-        self._gastos.append(Gasto(descripcion,monto,categoria))
+                print("Ingresa el monto correctamente.") 
+        mes = datetime.now().month              
+        self._gastos.append(Gasto(descripcion,monto,categoria, mes))
         
     def mostrar_gastos(self):
         if self._gastos:
@@ -23,21 +24,36 @@ class GestorGastos:
             print('No hay gastos')
     
     def buscar_categoria(self):
-        categoria = input("Ingresa la categoria: ")
-        for gasto in self._gastos:
-            if gasto.categoria == categoria:
-                print(gasto)
+        if self._gastos:
+            categoria = input("Ingresa la categoria: ")
+            for gasto in self._gastos:
+                if gasto.categoria == categoria:
+                    print(gasto)
+        else:
+            print("No hay gastos")
     
     def ordernar_por_monto(self):
-        for pasada in range(len(self._gastos)):
-            for gasto in range(len(self._gastos) - 1 - pasada):
-                if self._gastos[gasto].monto > self._gastos[gasto+1].monto:
-                    self._gastos[gasto], self._gastos[gasto+1] = self._gastos[gasto + 1], self._gastos[gasto]
-        self.mostrar_gastos()
-                
+        temp_list = self._gastos.copy()
+        if temp_list:
+            for pasada in range(len(temp_list)):
+                for gasto in range(len(temp_list) - 1 - pasada):
+                    if temp_list[gasto].monto > temp_list[gasto+1].monto:
+                        temp_list[gasto], temp_list[gasto+1] = temp_list[gasto + 1], temp_list[gasto]
+            
+            print(temp_list)
+        else:
+            print("No hay gastos.")
     
     def calcular_total_mensual(self):
-        pass
+        if self._gastos:
+            mes_actual = datetime.now().month
+            total = 0
+            for gasto in self._gastos:
+                if gasto._mes == mes_actual:
+                    total += gasto.monto
+            print(f'El total mensual es de: {total}')
+        else:
+            print("No hay gastos")           
     
     def guardar(self):
         datos = []
