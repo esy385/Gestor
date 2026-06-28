@@ -13,15 +13,19 @@ class GestorGastos:
                 descripcion,monto,categoria = input("Descripcion: "), int(input("Monto: ")), input("Categoria: ")
                 break
             except ValueError:
-                print("Ingresa el monto correctamente.") 
-        mes = datetime.now().month              
+                print("\nIngresa el monto correctamente.\n") 
+        mes = datetime.now().month
+        print("Agregando gasto...")              
         self._gastos.append(Gasto(descripcion,monto,categoria, mes))
+        time.sleep(2)
         
     def mostrar_gastos(self):
         if self._gastos:
-            print(self._gastos)
+            print(f'\n{self._gastos}\n')
+            time.sleep(2)
         else:
-            print('No hay gastos')
+            print('\nNo hay gastos\n')
+            time.sleep(2)
     
     def buscar_categoria(self):
         if self._gastos:
@@ -29,8 +33,10 @@ class GestorGastos:
             for gasto in self._gastos:
                 if gasto.categoria == categoria:
                     print(gasto)
+            time.sleep(2)
         else:
-            print("No hay gastos")
+            print("\nNo hay gastos\n")
+            time.sleep(2)
     
     def ordernar_por_monto(self):
         temp_list = self._gastos.copy()
@@ -40,20 +46,29 @@ class GestorGastos:
                     if temp_list[gasto].monto > temp_list[gasto+1].monto:
                         temp_list[gasto], temp_list[gasto+1] = temp_list[gasto + 1], temp_list[gasto]
             
-            print(temp_list)
+            print(f'\n{temp_list}\n')
+            time.sleep(2)
         else:
-            print("No hay gastos.")
+            print("\nNo hay gastos.\n")
+            time.sleep(2)
     
     def calcular_total_mensual(self):
         if self._gastos:
-            mes_actual = datetime.now().month
             total = 0
+            numero_mes = int(input("Numero del mes: "))
             for gasto in self._gastos:
-                if gasto._mes == mes_actual:
+                if gasto._mes == numero_mes:
                     total += gasto.monto
-            print(f'El total mensual es de: {total}')
+            
+            if total > 0:
+                print(f'\nEl total mensual es de: {total}\n')
+            else:
+                print("No hay gastos este mes.")
+            time.sleep(2)
         else:
-            print("No hay gastos")           
+            print("\nNo hay gastos\n")     
+            time.sleep(2)
+                  
     
     def guardar(self):
         datos = []

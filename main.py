@@ -1,5 +1,5 @@
 from gestor import GestorGastos
-
+from api_monedas import convertir_clp_a_usd as convertir
 def menu():
     gestor = GestorGastos()
     while True:
@@ -23,7 +23,8 @@ def menu():
             case 5:
                 gestor.calcular_total_mensual()
             case 6:
-                pass
+                monto = int(input("Monto a transformar: "))
+                convertir(monto)
             case 7:
                 gestor.guardar()
             case 8:
